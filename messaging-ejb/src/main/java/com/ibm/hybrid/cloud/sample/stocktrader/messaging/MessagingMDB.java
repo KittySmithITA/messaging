@@ -1,5 +1,5 @@
 /*
-       Copyright 2017, 2019 IBM Corp All Rights Reserved
+       Copyright 2017-2021 IBM Corp All Rights Reserved
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -110,7 +110,7 @@ public class MessagingMDB implements MessageListener {
 			// create() uses default settings.  
 			// For other settings, specify a JWTBuilder element in server.xml
 			// and call create(builder id)
-			JwtBuilder builder = JwtBuilder.create("myBuilder");
+			JwtBuilder builder = JwtBuilder.create("defaultJWT");
 
 			// Put the user info into a JWT Token
 			builder.subject(userName);
