@@ -1,4 +1,4 @@
-#       Copyright 2017-2020 IBM Corp All Rights Reserved
+#       Copyright 2017-2021 IBM Corp All Rights Reserved
 
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
 # FROM websphere-liberty:microProfile3
 FROM openliberty/open-liberty:kernel-slim-java11-openj9-ubi
 
-# Following line is a workaround for an issue where sometimes the server somehow loads the built-in server.xml,
-# rather than the one I copy into the image.  That shouldn't be possible, but alas, it appears to be some Docker bug.
-RUN rm /config/server.xml
-
 COPY --chown=1001:0 src/main/liberty/config /config/
+
+#Workaround for https://github.com/OpenLiberty/ci.docker/issues/244
+RUN touch /config/server.xml
 
 # This script will add the requested XML snippets to enable Liberty features and grow image to be fit-for-purpose using featureUtility. 
 # Only available in 'kernel-slim'. The 'full' tag already includes all features for convenience.
