@@ -19,6 +19,8 @@ RUN mvn -f /usr/pom.xml clean package
 # FROM websphere-liberty:microProfile3
 FROM openliberty/open-liberty:kernel-slim-java11-openj9-ubi
 
+USER root
+
 COPY --from=build /usr/src/main/liberty/config /config/
 
 #Workaround for https://github.com/OpenLiberty/ci.docker/issues/244
@@ -30,5 +32,8 @@ RUN features.sh
 
 COPY --from=build /usr/messaging-ear/target/messaging-ear-1.0-SNAPSHOT.ear /config/apps/Messaging.ear
 COPY --from=build /usr/messaging-ear/target/prereqs/wmq.jmsra-9.2.1.0.rar /config/wmq.jmsra.rar
+
+RUN chown -R 1001:0 /config/
+USER 1001
 
 RUN configure.sh
