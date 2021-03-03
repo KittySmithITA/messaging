@@ -12,10 +12,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+FROM maven:3.6-jdk-11-slim AS build
+COPY . /usr/
+RUN mvn -f /usr/pom.xml clean package
+
 # FROM websphere-liberty:microProfile3
 FROM openliberty/open-liberty:kernel-slim-java11-openj9-ubi
 
-COPY --chown=1001:0 src/main/liberty/config /config/
+COPY --from=build /usr/src/main/liberty/config /config/
 
 #Workaround for https://github.com/OpenLiberty/ci.docker/issues/244
 RUN touch /config/server.xml
@@ -24,6 +28,7 @@ RUN touch /config/server.xml
 # Only available in 'kernel-slim'. The 'full' tag already includes all features for convenience.
 RUN features.sh
 
-COPY --chown=1001:0 messaging-ear/target/messaging-ear-1.0-SNAPSHOT.ear /config/apps/Messaging.ear
+COPY --from=build /usr/messaging-ear/target/messaging-ear-1.0-SNAPSHOT.ear /config/apps/Messaging.ear
+COPY --from=build /usr/messaging-ear/target/prereqs/wmq.jmsra-9.2.1.0.rar /config/wmq.jmsra.rar
 
 RUN configure.sh
