@@ -28,7 +28,7 @@ COPY --from=build /usr/src/main/liberty/config /config/
 RUN features.sh
 
 COPY --from=build /usr/messaging-ear/target/messaging-ear-1.0-SNAPSHOT.ear /config/apps/Messaging.ear
-COPY --from=build /usr/messaging-ear/target/prereqs/wmq.jmsra-9.2.1.0.rar /config/wmq.jmsra.rar
+COPY --from=build /usr/messaging-ear/target/prereqs/wmq.jmsra-9.2.2.0.rar /config/wmq.jmsra.rar
 
 RUN chown -R 1001:0 /config/
 USER 1001
