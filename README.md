@@ -9,7 +9,7 @@ This *MDB* expects to receive a *TextMessage* containing a *JSON* object with fo
 
  ### Deploy
 
-Use WebSphere Liberty helm chart to deploy Messaging microservice:
+Use WebSphere Liberty helm chart to deploy Messaging microservice: 
 ```bash
 helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
 helm install ibm-charts/ibm-websphere-liberty -f <VALUES_YAML> -n <RELEASE_NAME> --tls
